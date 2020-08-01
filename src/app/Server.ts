@@ -1,19 +1,37 @@
-import { createServer } from 'restify';
+import * as restify from 'restify'
+import {environment} from '../../common/environment'
+export class Server{
 
-export const app = () => {
-    const server = createServer({
-        name: "CUSTOMER-API",
-        version: "1.0.0"
-    })
+    private application?: restify.Server;
 
-    server.get('/whatsup', (req, resp, next) => {
-        resp.contentType = 'application/json'
-        resp.json(200,{
-            message:"hello"
+    public async initRoutes(): Promise<any>{
+        return new Promise((resolve,rejects)=>{
+            try{
+                this.application = restify.createServer({
+                    name:environment.server.name,
+                    version:environment.server.version
+                })
+                this.application.use(restify.plugins.queryParser())
+                this.application.listen(environment.server.port,()=>{
+                    resolve(this.application)
+                })
+                this.application.get('/info',(res,resp,next)=>{
+                    resp.json({message:"working!"})
+                    return next()
+                })
+            }
+            catch(error){
+                rejects(error);
+            }
         })
-        return next()
-    })
-    server.listen(8080, () => {
-        console.log("Server is listening on port 8080")
-    })
+    }
+    
+    public get address():string{
+        return JSON.stringify(this.application?.address())
+    }
+    
+
+    public async bootstrap(): Promise<Server>{
+        return this.initRoutes().then(()=> this);
+    }
 }
