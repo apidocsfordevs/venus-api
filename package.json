@@ -2,7 +2,7 @@
   "name": "customer-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist\\index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,8 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/restify": "^8.4.2",
     "restify": "^8.5.1",
     "typescript": "^3.9.7"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.27",
+    "@types/restify": "^8.4.2"
   }
 }
