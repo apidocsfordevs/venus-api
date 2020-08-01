@@ -1,23 +1,30 @@
 import * as restify from 'restify'
-import {environment} from '../../common/environment'
+import {environment} from './common/environment'
+import {Router} from './common/router'
 export class Server{
 
-    private application?: restify.Server;
+    private application: restify.Server;
 
-    public async initRoutes(): Promise<any>{
+    constructor(){
+        this.application = restify.createServer({
+            name:environment.server.name,
+            version:environment.server.version
+        })
+        this.application.use(restify.plugins.queryParser())
+    }
+
+    private startListening(resolve: Function){
+        this.application.listen(environment.server.port,()=>{
+            resolve(this.application)
+        })
+    }
+
+    public async initRoutes(routers: Router[] = []): Promise<any>{
         return new Promise((resolve,rejects)=>{
             try{
-                this.application = restify.createServer({
-                    name:environment.server.name,
-                    version:environment.server.version
-                })
-                this.application.use(restify.plugins.queryParser())
-                this.application.listen(environment.server.port,()=>{
-                    resolve(this.application)
-                })
-                this.application.get('/info',(res,resp,next)=>{
-                    resp.json({message:"working!"})
-                    return next()
+                this.startListening(resolve)
+                routers.forEach(route => {
+                    route.applyRoutes(this.application)
                 })
             }
             catch(error){
@@ -31,7 +38,7 @@ export class Server{
     }
     
 
-    public async bootstrap(): Promise<Server>{
-        return this.initRoutes().then(()=> this);
+    public async bootstrap(routers: Router[] = []): Promise<Server>{
+        return this.initRoutes(routers).then(()=> this);
     }
 }
