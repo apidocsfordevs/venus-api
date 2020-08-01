@@ -1,1 +1,3 @@
-console.log('iai')
+import {app} from './Server'
+
+app()
