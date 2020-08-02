@@ -5,6 +5,6 @@ export const environment = {
         version:"1.0.0"
     },
     db:{
-        url:process.env.DB_URL || 'mongodb://localhost/customer-api'
+        url:process.env.DB_URL || 'mongodb://localhost:27017/customer-api'
     }
 }

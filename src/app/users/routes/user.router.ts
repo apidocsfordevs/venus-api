@@ -1,16 +1,18 @@
 import { Router } from '../../common/router';
 import * as restify from 'restify';
-import { User } from '../models/users.model'
+import { UserDTO } from '../models/users.model'
 class UsersRouter extends Router {
     applyRoutes(application: restify.Server) {
+
         application.get('/users', (req, resp, next) => {
-            User.findAll().then(data =>{
+            UserDTO.find().then(data =>{
                 resp.json(data)
                 return next()
             })
         })
+
         application.get('/users/:id', (req, resp, next) => {
-            User.findById(req.params['id']).then(data =>{
+            UserDTO.findById(req.params['id']).then(data =>{
                 if(data){
                     resp.json(data)
                     return next()
