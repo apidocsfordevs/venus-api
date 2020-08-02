@@ -12,6 +12,7 @@ export class Server{
             version:environment.server.version
         })
         this.application.use(restify.plugins.queryParser())
+        this.application.use(restify.plugins.bodyParser())
     }
 
     private startListening(resolve: Function){

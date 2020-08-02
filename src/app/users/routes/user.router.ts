@@ -17,7 +17,16 @@ class UsersRouter extends Router {
                     resp.json(data)
                     return next()
                 }
-                resp.send(404, {message:"NOT FOUND"})
+                resp.send(404, {message:"NOT FOUND"})   
+                return next()
+            })
+        })
+
+        application.post('/users',(req,resp,next)=>{
+            let user = new UserDTO(JSON.parse(req.body))
+            user.save().then(userCreated => {
+                userCreated.password = 'encrypted'
+                resp.json(userCreated)
                 return next()
             })
         })
