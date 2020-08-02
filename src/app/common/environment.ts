@@ -3,5 +3,8 @@ export const environment = {
         port:process.env.SERVER_PORT || 3030,
         name:"customer-api",
         version:"1.0.0"
+    },
+    db:{
+        url:process.env.DB_URL || 'mongodb://localhost/customer-api'
     }
 }

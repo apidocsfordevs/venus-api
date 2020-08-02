@@ -1,6 +1,7 @@
 import * as restify from 'restify'
 import {environment} from './common/environment'
 import {Router} from './common/router'
+import {DataBaseInitializer} from './DataBaseInitializer'
 export class Server{
 
     private application: restify.Server;
@@ -39,6 +40,12 @@ export class Server{
     
 
     public async bootstrap(routers: Router[] = []): Promise<Server>{
-        return this.initRoutes(routers).then(()=> this);
+        try{
+            await DataBaseInitializer.init()
+            return this.initRoutes(routers).then(()=> this);
+        }
+        catch(err){
+            throw err
+        }
     }
 }
