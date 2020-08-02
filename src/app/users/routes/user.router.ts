@@ -35,21 +35,57 @@ class UsersRouter extends Router {
             const options = {
                 overwrite: true
             }
-            UserDTO.update({ "_id": req.params['id'] }, JSON.parse(req.body))
+            UserDTO.update({ "_id": req.params['id'] }, req.body, options)
                 .exec()
                 .then(result => {
-                    if(result.n){
+                    if (result.n) {
                         return UserDTO.findById(req.params['id'])
                     }
-                    return resp.send(404)
+                    resp.send(404)
                 })
                 .then(user => {
                     resp.json(user)
+                })
+                .catch(err =>
+                    resp.send(500, err)
+                )
+            return next()
+        })
+
+        application.patch('/users/:id', (req, resp, next) => {
+            const options = {
+                new: true
+            }
+            UserDTO.findByIdAndUpdate({ "_id": req.params['id'] }, req.body, options)
+                .then(user => {
+                    if (user) {
+                        resp.json(user)
+                    }
+                    resp.send(404)
                     return next()
                 })
-                .catch(err => 
-                    resp.send(500,err)
+                .catch(err =>
+                    resp.send(500, err)
                 )
+            return next()
+        })
+        application.del('/users/:id', (req, resp, next) => {
+            const options = {
+                new: true
+            }
+            UserDTO.deleteOne({ "_id": req.params['id'] })
+                .exec()
+                .then(queryResult => {
+                    if (queryResult.n) {
+                        resp.send(204)
+                        return next()
+                    }
+                    resp.send(404)
+                })
+                .catch(err =>
+                    resp.send(500, err)
+                )
+            return next()
         })
     }
 }
