@@ -2,33 +2,29 @@ import { Router } from '../../common/router';
 import * as restify from 'restify';
 import { UserDTO } from '../models/users.model'
 class UsersRouter extends Router {
-    applyRoutes(application: restify.Server) {
 
+    constructor() {
+        super()
+        this.on('beforeRender', document => {
+            document.password = 'encrypted'
+        })
+    }
+
+    applyRoutes(application: restify.Server) {
         application.get('/users', (req, resp, next) => {
-            UserDTO.find().then(data => {
-                resp.json(data)
-                return next()
-            })
+            UserDTO.find().then(this.render(resp, next))
         })
 
         application.get('/users/:id', (req, resp, next) => {
-            UserDTO.findById(req.params['id']).then(data => {
-                if (data) {
-                    resp.json(data)
-                    return next()
-                }
-                resp.send(404, { message: "NOT FOUND" })
-                return next()
-            })
+            const options = {
+                errorMessage: "NOT FOUND"
+            }
+            UserDTO.findById(req.params['id']).then(this.render(resp, next, options))
         })
 
         application.post('/users', (req, resp, next) => {
             let user = new UserDTO(JSON.parse(req.body))
-            user.save().then(userCreated => {
-                userCreated.password = 'encrypted'
-                resp.json(userCreated)
-                return next()
-            })
+            user.save().then(this.render(resp, next))
         })
 
         application.put('/users/:id', (req, resp, next) => {
@@ -43,9 +39,7 @@ class UsersRouter extends Router {
                     }
                     resp.send(404)
                 })
-                .then(user => {
-                    resp.json(user)
-                })
+                .then(this.render(resp, next))
                 .catch(err =>
                     resp.send(500, err)
                 )
@@ -56,18 +50,11 @@ class UsersRouter extends Router {
             const options = {
                 new: true
             }
-            UserDTO.findByIdAndUpdate({ "_id": req.params['id'] }, req.body, options)
-                .then(user => {
-                    if (user) {
-                        resp.json(user)
-                    }
-                    resp.send(404)
-                    return next()
-                })
+            return UserDTO.findByIdAndUpdate({ "_id": req.params['id'] }, req.body, options)
+                .then(this.render(resp, next))
                 .catch(err =>
                     resp.send(500, err)
                 )
-            return next()
         })
         application.del('/users/:id', (req, resp, next) => {
             const options = {
