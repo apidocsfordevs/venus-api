@@ -3,6 +3,7 @@ import {environment} from '../common/environment'
 import {Router} from '../common/router'
 import {DataBaseInitializer} from '../DataBase/DataBaseInitializer'
 import {mergePatchBodyParser} from './merge-patch.parser'
+import {handleError} from './error.handler'
 export class Server{
 
     private application: restify.Server;
@@ -15,6 +16,7 @@ export class Server{
         this.application.use(restify.plugins.queryParser())
         this.application.use(restify.plugins.bodyParser())
         this.application.use(mergePatchBodyParser)
+        this.application.on('restifyerror',handleError)
     }
 
     private startListening(resolve: Function){

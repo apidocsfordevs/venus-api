@@ -1,6 +1,7 @@
 import { Router } from '../../common/router';
 import * as restify from 'restify';
 import { UserDTO } from '../models/users.model'
+import { NotFoundError } from 'restify-errors';
 class UsersRouter extends Router {
 
     constructor() {
@@ -12,19 +13,21 @@ class UsersRouter extends Router {
 
     applyRoutes(application: restify.Server) {
         application.get('/users', (req, resp, next) => {
-            UserDTO.find().then(this.render(resp, next))
+            UserDTO.find()
+                   .then(this.render(resp, next))
+                   .catch(next)
         })
 
         application.get('/users/:id', (req, resp, next) => {
             const options = {
                 errorMessage: "NOT FOUND"
             }
-            UserDTO.findById(req.params['id']).then(this.render(resp, next, options))
+            UserDTO.findById(req.params['id']).then(this.render(resp, next, options)).catch(next)
         })
 
         application.post('/users', (req, resp, next) => {
             let user = new UserDTO(JSON.parse(req.body))
-            user.save().then(this.render(resp, next))
+            user.save().then(this.render(resp, next)).catch(next)
         })
 
         application.put('/users/:id', (req, resp, next) => {
@@ -37,7 +40,7 @@ class UsersRouter extends Router {
                     if (result.n) {
                         return UserDTO.findById(req.params['id'])
                     }
-                    resp.send(404)
+                    throw new NotFoundError("Documento não encontrado!")
                 })
                 .then(this.render(resp, next))
                 .catch(err =>
@@ -67,7 +70,7 @@ class UsersRouter extends Router {
                         resp.send(204)
                         return next()
                     }
-                    resp.send(404)
+                    throw new NotFoundError("Documento não encontrado!")
                 })
                 .catch(err =>
                     resp.send(500, err)
