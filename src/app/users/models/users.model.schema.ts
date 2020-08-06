@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import {validateCPF} from '../../common/validators'
 const userBaseSchema = {
     name:{
         type:String,
@@ -20,6 +21,14 @@ const userBaseSchema = {
     gender:{
         type:String,
         enum:['Male','Female','None']
+    },
+    cpf:{
+        type:String,
+        required:false,
+        validate:{
+            validator:validateCPF,
+            message:'{PATH}: Invalid CPF ({VALUE})'
+        }
     }
 }
 
