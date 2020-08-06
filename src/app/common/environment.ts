@@ -6,5 +6,8 @@ export const environment = {
     },
     db:{
         url:process.env.DB_URL || 'mongodb://localhost:27017/customer-api'
+    },
+    security:{
+        salt_rounds: process.env.SALT_ROUNDS || 10  
     }
 }

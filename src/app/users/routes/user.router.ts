@@ -24,9 +24,8 @@ class UsersRouter extends Router {
             }
             UserDTO.findById(req.params['id']).then(this.render(resp, next, options)).catch(next)
         })
-
         application.post('/users', (req, resp, next) => {
-            let user = new UserDTO(JSON.parse(req.body))
+            let user = new UserDTO(req.body)
             user.save().then(this.render(resp, next)).catch(next)
         })
 
