@@ -31,7 +31,8 @@ class UsersRouter extends Router {
 
         application.put('/users/:id', (req, resp, next) => {
             const options = {
-                overwrite: true
+                overwrite: true,
+                runValidators:true
             }
             UserDTO.update({ "_id": req.params['id'] }, req.body, options)
                 .exec()
@@ -42,26 +43,20 @@ class UsersRouter extends Router {
                     throw new NotFoundError("Documento não encontrado!")
                 })
                 .then(this.render(resp, next))
-                .catch(err =>
-                    resp.send(500, err)
-                )
+                .catch(next)
             return next()
         })
 
         application.patch('/users/:id', (req, resp, next) => {
             const options = {
-                new: true
+                new: true,
+                runValidators:true
             }
             return UserDTO.findByIdAndUpdate({ "_id": req.params['id'] }, req.body, options)
                 .then(this.render(resp, next))
-                .catch(err =>
-                    resp.send(500, err)
-                )
+                .catch(next)
         })
         application.del('/users/:id', (req, resp, next) => {
-            const options = {
-                new: true
-            }
             UserDTO.deleteOne({ "_id": req.params['id'] })
                 .exec()
                 .then(queryResult => {

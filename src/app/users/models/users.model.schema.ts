@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 import {validateCPF} from '../../common/validators'
-import * as bcrypt from 'bcrypt'
-import {environment} from '../../common/environment'
+import {saveMiddleware,updateMiddleware} from '../middleware/users.middleware'
 const userBaseSchema = {
     name:{
         type:String,
@@ -43,19 +42,8 @@ export interface IUser extends mongoose.Document{
 }
 
 const userSchema = new mongoose.Schema(userBaseSchema)
-userSchema.pre('save',function(next:any){
-    const user: mongoose.Document= this
-    if(!user.isModified('password')){
-        next()
-    }
-    else{
-        bcrypt.hash((<IUser> user).password,environment.security.salt_rounds)
-               .then(hash=>{
-                    (<IUser> user).password = hash
-                    next()
-               })
-               .catch(next)
-    }
-})
+userSchema.pre('save',saveMiddleware)
+userSchema.pre('findOneAndUpdate',updateMiddleware)
+userSchema.pre('update',updateMiddleware)
 
 export default userSchema
