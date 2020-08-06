@@ -16,7 +16,7 @@ export class Server{
         this.application.use(restify.plugins.queryParser())
         this.application.use(restify.plugins.bodyParser())
         this.application.use(mergePatchBodyParser)
-        this.application.on('restifyerror',handleError)
+        this.application.on('restifyError',handleError)
     }
 
     private startListening(resolve: Function){
