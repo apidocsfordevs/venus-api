@@ -1,12 +1,12 @@
 import * as restify from 'restify'
 import { EventEmitter } from 'events';
 import { NotFoundError } from 'restify-errors';
-export abstract class Router extends EventEmitter{
+export abstract class Router extends EventEmitter {
     abstract applyRoutes(application: restify.Server): any
-    render(response: restify.Response, next: restify.Next, options: any = {}) {
-        return (document:any) => {
+    render(response: restify.Response, next: restify.Next) {
+        return (document: any) => {
             if (document) {
-                this.emit('beforeRender',document)
+                this.emit('beforeRender', document)
                 response.statusCode = 200;
                 response.json(document)
             }
@@ -17,12 +17,12 @@ export abstract class Router extends EventEmitter{
         }
     }
 
-    renderAll(response: restify.Response, next: restify.Next, options: any = {}) {
-        return (documents:any[]) => {
+    renderAll(response: restify.Response, next: restify.Next, page: number, limit: number, totalPages: Promise<number>) {
+        return (documents: any[]) => {
             if (documents) {
-                documents.forEach(document => this.emit('beforeRender',document))
+                documents.forEach(document => this.emit('beforeRender', document))
                 response.statusCode = 200;
-                response.json(documents)
+                totalPages.then(totalPagesCount => response.json({ documents, page, limit, totalPagesCount }))
             }
             else {
                 response.json([])

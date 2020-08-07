@@ -13,7 +13,7 @@ export interface IRestaurant extends mongoose.Document {
 const menuSchema = new mongoose.Schema<IMenuItem>({
     name: {
         required: true,
-        type: String
+        type: String,
     },
     price: {
         type: Number,
@@ -24,7 +24,8 @@ const menuSchema = new mongoose.Schema<IMenuItem>({
 export const restaurantSchema = new mongoose.Schema<IRestaurant>({
     name:{
         type:String,
-        required:true
+        required:true,
+        unique:true
     },
     menu:{
         type:[menuSchema],
