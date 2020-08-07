@@ -2,9 +2,10 @@ import {ModelRouter} from '../../common/model-router'
 import {RestaurantDTO} from '../models/restaurants.model'
 import {IRestaurant} from '../models/restaurants.model.schema'
 import {Server} from 'restify'
+import { environment } from '../../common/environment'
 class RestaurantRouter extends ModelRouter<IRestaurant>{
     constructor(){
-        super(RestaurantDTO)
+        super(RestaurantDTO,environment.db.restaurants.projection)
     }
 
     applyRoutes(application:Server){

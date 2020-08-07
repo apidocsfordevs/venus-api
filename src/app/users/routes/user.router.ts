@@ -2,9 +2,10 @@ import { ModelRouter } from '../../common/model-router';
 import * as restify from 'restify';
 import { UserDTO } from '../models/users.model'
 import { IUser } from '../models/users.model.schema';
+import { environment } from '../../common/environment';
 class UsersRouter extends ModelRouter<IUser> {
     constructor() {
-        super(UserDTO)
+        super(UserDTO,environment.db.users.projection)
     }
 
     applyRoutes(application: restify.Server) {

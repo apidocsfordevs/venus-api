@@ -4,7 +4,7 @@ import { Request, Response, Next } from 'restify'
 import { NotFoundError } from 'restify-errors'
 
 export abstract class ModelRouter<T extends mongoose.Document> extends Router {
-    constructor(protected model: mongoose.Model<T>) {
+    constructor(protected model: mongoose.Model<T>,protected fieldsToSelectAtGetById:string) {
         super()
         this.on('beforeRender', document => {
             document.password = 'encrypted'
@@ -32,7 +32,7 @@ export abstract class ModelRouter<T extends mongoose.Document> extends Router {
     }
 
     findById = (req: Request, resp: Response, next: Next) => { 
-        this.model.findById(req.params['id'],'name menu').then(this.render(resp, next)).catch(next)
+        this.model.findById(req.params['id'],this.fieldsToSelectAtGetById).then(this.render(resp, next)).catch(next)
     }
 
     save = (req: Request, resp: Response, next: Next) => {
