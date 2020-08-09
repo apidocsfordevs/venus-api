@@ -11,6 +11,9 @@ export const environment = {
         },
         restaurants:{
             projection:process.env.RESTAURANTS_PROJECTIONS || 'name menu'
+        },
+        reviews:{
+            projection:process.env.REVIEWS_PROJECTIONS || 'rating comments'
         }
     },
     security:{
