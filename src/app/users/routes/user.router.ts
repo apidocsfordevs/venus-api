@@ -8,8 +8,18 @@ class UsersRouter extends ModelRouter<IUser> {
         super(UserDTO,environment.db.users.projection)
     }
 
+    findByEmail = (req:restify.Request,resp:restify.Response,next:restify.Next)=>{
+        const {email} = req.query        
+        if(email){
+            this.model.find({"email":email})
+                      .then(this.render(resp,next))
+                      .catch(next)
+        }
+        next()
+    }
+
     applyRoutes(application: restify.Server) {
-        application.get('/users', this.findAll)
+        application.get('/users', [this.findByEmail,this.findAll])
         application.get('/users/:id', [this.validateId, this.findById])
         application.post('/users', this.save)
         application.put('/users/:id', [this.validateId, this.replace])
