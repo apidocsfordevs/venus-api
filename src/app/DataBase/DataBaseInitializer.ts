@@ -5,6 +5,7 @@ export class DataBaseInitializer{
         let uri = environment.db.url
         uri = uri.replace('"',"").replace('"',"")        
         return mongoose.connect(uri,{
+            useCreateIndex:true,
             useNewUrlParser:true,
             useUnifiedTopology:true
         })

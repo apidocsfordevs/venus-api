@@ -4,35 +4,35 @@ import { Request, Response, Next } from 'restify'
 import { NotFoundError } from 'restify-errors'
 
 export abstract class ModelRouter<T extends mongoose.Document> extends Router {
-    constructor(protected model: mongoose.Model<T>,protected fieldsToSelectAtGetById:string) {
+    constructor(protected model: mongoose.Model<T>, protected fieldsToSelectAtGetById: string) {
         super()
         this.on('beforeRender', document => {
             document.password = 'encrypted'
         })
     }
 
-    validateId = (req: Request, resp: Response, next: Next) =>{
-        if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+    validateId = (req: Request, resp: Response, next: Next) => {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             next(new NotFoundError("Not a valid ID"))
         }
-        else{
+        else {
             next()
         }
     }
 
     findAll = (req: Request, resp: Response, next: Next) => {
-        let {page=1,limit = 5} = req.query
+        let { page = 1, limit = 5 } = req.query
         page = Number.parseInt(page)
         limit = Number.parseInt(limit)
         this.model.find()
             .limit(limit)
-            .skip((page-1)*limit)
-            .then(this.renderAll(resp, next,page,limit,this.model.countDocuments().exec()))
+            .skip((page - 1) * limit)
+            .then(this.renderAll(resp, next, page, limit, this.model.countDocuments().exec()))
             .catch(next)
     }
 
-    findById = (req: Request, resp: Response, next: Next) => { 
-        this.model.findById(req.params['id'],this.fieldsToSelectAtGetById).then(this.render(resp, next)).catch(next)
+    findById = (req: Request, resp: Response, next: Next) => {
+        this.model.findById(req.params['id'], this.fieldsToSelectAtGetById).then(this.render(resp, next)).catch(next)
     }
 
     save = (req: Request, resp: Response, next: Next) => {
@@ -45,9 +45,9 @@ export abstract class ModelRouter<T extends mongoose.Document> extends Router {
             overwrite: true,
             runValidators: true
         }
-        this.model.update({ "_id": req.params['id']}, req.body,options)
+        this.model.update({ "_id": req.params['id'] }, req.body, options)
             .exec()
-            .then(result => {                
+            .then(result => {
                 if (result.n) {
                     return this.model.findById(req.params['id'])
                 }
