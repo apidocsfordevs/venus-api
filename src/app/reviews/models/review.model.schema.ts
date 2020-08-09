@@ -25,12 +25,12 @@ export const reviewSchema = new mongoose.Schema<IReview>({
     },
     restaurant:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'restaurants',
+        ref:'Restaurant',
         required:true
     },
     user:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'users',
+        ref:'User',
         required:true
     }
 })

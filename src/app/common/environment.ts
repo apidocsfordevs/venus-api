@@ -13,7 +13,7 @@ export const environment = {
             projection:process.env.RESTAURANTS_PROJECTIONS || 'name menu'
         },
         reviews:{
-            projection:process.env.REVIEWS_PROJECTIONS || 'rating comments'
+            projection:process.env.REVIEWS_PROJECTIONS || 'rating comments restaurant user'
         }
     },
     security:{

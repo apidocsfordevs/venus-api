@@ -11,6 +11,10 @@ export abstract class ModelRouter<T extends mongoose.Document> extends Router {
         })
     }
 
+    protected prepareOne(query: mongoose.DocumentQuery<T | null, T,{}>): mongoose.DocumentQuery<T | null, T,{}> {
+        return query
+    }
+
     validateId = (req: Request, resp: Response, next: Next) => {
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             next(new NotFoundError("Not a valid ID"))
@@ -32,7 +36,7 @@ export abstract class ModelRouter<T extends mongoose.Document> extends Router {
     }
 
     findById = (req: Request, resp: Response, next: Next) => {
-        this.model.findById(req.params['id'], this.fieldsToSelectAtGetById).then(this.render(resp, next)).catch(next)
+        this.prepareOne(this.model.findById(req.params['id'], this.fieldsToSelectAtGetById)).then(this.render(resp, next)).catch(next)
     }
 
     save = (req: Request, resp: Response, next: Next) => {
