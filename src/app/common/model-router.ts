@@ -25,7 +25,7 @@ export abstract class ModelRouter<T extends mongoose.Document> extends Router {
     }
 
     findAll = (req: Request, resp: Response, next: Next) => {
-        let { page = 1, limit = 5 } = req.query
+        let { page = 1, limit = 5 } = req.query        
         page = Number.parseInt(page)
         limit = Number.parseInt(limit)
         this.model.find()

@@ -41,9 +41,17 @@ export interface IUser extends mongoose.Document{
     cpf?:string
 }
 
+export interface IUserDTO extends mongoose.Model<IUser>{
+    findByEmail(email:string):Promise<IUser>
+}
+
 const userSchema = new mongoose.Schema(userBaseSchema)
 userSchema.pre('save',saveMiddleware)
 userSchema.pre('findOneAndUpdate',updateMiddleware)
 userSchema.pre('update',updateMiddleware)
+
+userSchema.statics.findByEmail = function(email:string){
+    return this.findOne({email})
+}
 
 export default userSchema

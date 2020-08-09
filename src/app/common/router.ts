@@ -22,7 +22,7 @@ export abstract class Router extends EventEmitter {
             if (documents) {
                 documents.forEach(document => this.emit('beforeRender', document))
                 response.statusCode = 200;
-                totalPages.then(totalPagesCount => response.json({ documents, page, limit, totalPagesCount }))
+                totalPages.then(totalPagesCount => response.json({ documents, page, limit, totalPagesCount })).catch(next)
             }
             else {
                 response.json([])
