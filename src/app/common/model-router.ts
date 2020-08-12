@@ -4,11 +4,26 @@ import { Request, Response, Next } from 'restify'
 import { NotFoundError } from 'restify-errors'
 
 export abstract class ModelRouter<T extends mongoose.Document> extends Router {
+    basePath:string;
     constructor(protected model: mongoose.Model<T>, protected fieldsToSelectAtGetById: string) {
         super()
         this.on('beforeRender', document => {
             document.password = 'encrypted'
         })
+        this.basePath = `/${model.collection.name}`
+    }
+
+    paginatorOptions = (req: Request) => {
+        let { page = 1, limit = 5 } = req.query        
+        page = Number.parseInt(page)
+        limit = Number.parseInt(limit)
+        return {page,limit}
+    }
+
+    envelope(document:mongoose.Document):any{
+        let resource = Object.assign({_links:{}},document.toJSON())
+        resource._links.self = `${this.basePath}/${resource._id}`
+        return resource
     }
 
     protected prepareOne(query: mongoose.DocumentQuery<T | null, T,{}>): mongoose.DocumentQuery<T | null, T,{}> {
@@ -25,9 +40,7 @@ export abstract class ModelRouter<T extends mongoose.Document> extends Router {
     }
 
     findAll = (req: Request, resp: Response, next: Next) => {
-        let { page = 1, limit = 5 } = req.query        
-        page = Number.parseInt(page)
-        limit = Number.parseInt(limit)
+        const { page , limit } = this.paginatorOptions(req)
         this.model.find()
             .limit(limit)
             .skip((page - 1) * limit)
