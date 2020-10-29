@@ -5,6 +5,8 @@ Forked from	https://github.com/duccl/customer-api.git to demonstrate the Venus c
 ## Documentation
 Documentation is hosted by Postman at https://web.postman.co/collections/1901092-0dcf92c6-fb74-4982-94d9-704a02a39281?version=latest&workspace=a5196713-6bb2-4ae6-8b57-37aa01dcd703
 
+The documentation is only accessible by collaborators (people added to the Postman team). To gain access, speak to the dev manager for Venus.
+
 ## Requirements
 - Node.js 10+
 - MongoDB installed locally or Docker
