@@ -1,8 +1,8 @@
 # Venus API
 
-Forked from	https://github.com/duccl/customer-api.git
+Forked from	https://github.com/duccl/customer-api.git to demonstrate the Venus case study for [API Documentation for Developers](http://apidocsfordevs.com).
 
-## Requirments
+## Requirements
 - Node.js 10+
 - MongoDB installed locally or Docker
 
