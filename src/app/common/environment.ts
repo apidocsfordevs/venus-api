@@ -1,11 +1,11 @@
 export const environment = {
     server:{
         port:process.env.SERVER_PORT || 3030,
-        name:"customer-api",
+        name:"venus-api",
         version:"1.0.0"
     },
     db:{
-        url:process.env.DB_URL || 'mongodb://localhost:27017/customer-api',
+        url:process.env.DB_URL || 'mongodb://localhost:27017/venus-api',
         users:{
             projection:process.env.USER_PROJECTIONS || 'name email'
         },
