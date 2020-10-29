@@ -17,7 +17,7 @@ export abstract class Router extends EventEmitter {
                 response.json(document)
             }
             else {
-                throw new NotFoundError("Documento não encontrado!")
+                throw new NotFoundError('Document not found.')
             }
             return next()
         }

@@ -68,7 +68,7 @@ export abstract class ModelRouter<T extends mongoose.Document> extends Router {
                 if (result.n) {
                     return this.model.findById(req.params['id'])
                 }
-                throw new NotFoundError("Documento não encontrado!")
+                throw new NotFoundError('Document not found.')
             })
             .then(this.render(resp, next))
             .catch(next)
@@ -93,7 +93,7 @@ export abstract class ModelRouter<T extends mongoose.Document> extends Router {
                     resp.send(204)
                     return next()
                 }
-                throw new NotFoundError("Documento não encontrado!")
+                throw new NotFoundError('Document not found.')
             })
             .catch(err =>
                 resp.send(500, err)
