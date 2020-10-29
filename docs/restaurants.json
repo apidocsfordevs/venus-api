@@ -1,0 +1,47 @@
+{
+  "post": {
+    "description": "",
+    "parameters": [
+    {
+      "in": "header",
+      "name": "Content-Type",
+      "description": "",
+      "example": "application/json",
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "in": "header",
+      "name": "Accept",
+      "description": "",
+      "example": "application/json",
+      "schema": {
+        "type": "string"
+      }
+    }
+    ],
+    "responses": {},
+    "tags": [
+      "Restaurants"
+    ]
+  },
+  "get": {
+    "description": "",
+    "parameters": [
+    {
+      "in": "header",
+      "name": "Accept",
+      "description": "",
+      "example": "application/json",
+      "schema": {
+        "type": "string"
+      }
+    }
+    ],
+    "responses": {},
+    "tags": [
+      "Restaurants"
+    ]
+  }
+}

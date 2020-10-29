@@ -1,0 +1,42 @@
+{
+  "delete": {
+    "description": "",
+    "responses": {},
+    "tags": [
+      "Reviews"
+    ]
+  },
+  "get": {
+    "description": "",
+    "parameters": [
+    {
+      "in": "header",
+      "name": "Accept",
+      "description": "",
+      "example": "application/json",
+      "schema": {
+        "type": "string"
+      }
+    }
+    ],
+    "responses": {
+      "404": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "example": {
+                "message": "Not a valid ID"
+              },
+              "properties": {}
+            }
+          }
+        }
+      }
+    },
+    "tags": [
+      "Reviews"
+    ]
+  }
+}

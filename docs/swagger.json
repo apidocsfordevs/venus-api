@@ -1,0 +1,50 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Venus API Documentation",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "servers": [
+  {
+    "url": "http://venus.api"
+  }
+  ],
+  "paths": {
+    "/users": {
+      "$ref": "./users.json"
+    },
+    "/users/:id": {
+      "$ref": "./users-id.json"
+    },
+    "/reviews": {
+      "$ref": "./reviews.json"
+    },
+    "/reviews/:id": {
+      "$ref": "./reviews-id.json"
+    },
+    "/restaurants": {
+      "$ref": "./restaurants.json"
+    },
+    "/restaurants/:id": {
+      "$ref": "./restaurants-id.json"
+    },
+    "/restaurants/:id/menu": {
+      "$ref": "./restaurants-id-menu.json"
+    },
+    "/restaurants/:id/menu/:menuID": {
+      "$ref": "./restaurants-id-menu-menuid.json"
+    }
+  },
+  "components": {
+    "schemas": {
+      "IdNotFound": {
+        "type": "object",
+        "example": {
+          "message": "Not a valid ID"
+        },
+        "properties": {}
+      }
+    }
+  }
+}

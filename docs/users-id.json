@@ -1,0 +1,77 @@
+{
+  "get": {
+    "summary": "Find a user by ID",
+    "description": "This will find a user by ID",
+    "responses": {
+      "404": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "example": {
+                "message": "Not a valid ID"
+              },
+              "properties": {}
+            }
+          }
+        }
+      }
+    },
+    "tags": [
+      "Users"
+    ]
+  },
+  "put": {
+    "description": "",
+    "responses": {},
+    "tags": [
+      "Users"
+    ]
+  },
+  "patch": {
+    "description": "",
+    "parameters": [
+    {
+      "in": "header",
+      "name": "Content-Type",
+      "description": "",
+      "example": "application/json",
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "in": "header",
+      "name": "Accept",
+      "description": "",
+      "example": "application/json",
+      "schema": {
+        "type": "string"
+      }
+    }
+    ],
+    "responses": {},
+    "tags": [
+      "Users"
+    ]
+  },
+  "delete": {
+    "description": "",
+    "parameters": [
+    {
+      "in": "header",
+      "name": "Accept",
+      "description": "",
+      "example": "application/json",
+      "schema": {
+        "type": "string"
+      }
+    }
+    ],
+    "responses": {},
+    "tags": [
+      "Users"
+    ]
+  }
+}

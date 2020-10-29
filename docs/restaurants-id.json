@@ -1,0 +1,81 @@
+{
+  "delete": {
+    "description": "",
+    "responses": {},
+    "tags": [
+      "Restaurants"
+    ]
+  },
+  "get": {
+    "description": "",
+    "responses": {
+      "404": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "swagger.json#/components/schemas/IdNotFound"
+            }
+          }
+        }
+      }
+    },
+    "tags": [
+      "Restaurants"
+    ]
+  },
+  "put": {
+    "description": "",
+    "parameters": [
+    {
+      "in": "header",
+      "name": "Content-Type",
+      "description": "",
+      "example": "application/json",
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "in": "header",
+      "name": "Accept",
+      "description": "",
+      "example": "application/json",
+      "schema": {
+        "type": "string"
+      }
+    }
+    ],
+    "responses": {},
+    "tags": [
+      "Restaurants"
+    ]
+  },
+  "patch": {
+    "description": "",
+    "parameters": [
+    {
+      "in": "header",
+      "name": "Content-Type",
+      "description": "",
+      "example": "application/json",
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "in": "header",
+      "name": "Accept",
+      "description": "",
+      "example": "application/json",
+      "schema": {
+        "type": "string"
+      }
+    }
+    ],
+    "responses": {},
+    "tags": [
+      "Restaurants"
+    ]
+  }
+}
