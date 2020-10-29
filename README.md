@@ -1,4 +1,4 @@
-# Venus API
+# Venus API (Sample)
 
 Forked from	https://github.com/duccl/customer-api.git to demonstrate the Venus case study for [API Documentation for Developers](http://apidocsfordevs.com).
 
